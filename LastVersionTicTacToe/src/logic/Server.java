@@ -53,11 +53,17 @@ public class Server extends Thread {
 		syn.setGame(true);
 
 		syn.setPlayerOneTurn(true);
+		messages.setText("Your turn");
 		while (syn.isGame() && !syn.isUnableToCommunicateWithOpponent()) {
-			messages.setText("Your turn");
+			
 			while (syn.isPlayerOneTurn() == true)
 				;
-			messages.setText("Opponent's turn");
+			if(!syn.isGame()){
+				messages.setText("You win");
+			}else{
+				messages.setText("Opponent's turn");
+			}
+			
 			for (int i = 0; i < 10; i++) {
 				try {
 					dos.writeInt(syn.getSetCell());
@@ -79,6 +85,7 @@ public class Server extends Thread {
 						}
 						continue;
 					}
+					messages.setText("Your turn");
 					syn.setBoardSymbol(cell, 'O');
 					board.setButton(cell, 'O');
 					syn.updateState('O');
